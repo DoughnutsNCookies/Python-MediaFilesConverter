@@ -5,9 +5,7 @@ import subprocess
 from concurrent.futures import ProcessPoolExecutor, as_completed
 
 # Define the source and destination directories
-SRC_DIR = '/Users/seanchuah/Documents/Sydney'
-# SRC_DIR = 'src'
-# SRC_DIR = 'test'
+SRC_DIR = 'src'
 DST_DIR = 'dst'
 
 # Ensure destination directory exists
