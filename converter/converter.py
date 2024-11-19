@@ -34,13 +34,20 @@ def convert_video(input_path, output_path):
     except subprocess.CalledProcessError as e:
         print(f"Error converting {input_path}: {e}")
 
+def rename_png(input_path, output_path):
+		"""Rename PNG files to JPEG."""
+		os.rename(input_path, output_path)
+
 def process_file(file_name):
     """Process a single file based on its extension."""
     src_file_path = os.path.join(SRC_DIR, file_name)
     dst_file_path = os.path.join(DST_DIR, file_name)
     file_ext = os.path.splitext(file_name)[1].lower()
 
-    if file_ext == '.heic':
+    if file_ext == '.png':
+        dst_file_path = os.path.splitext(dst_file_path)[0] + '.png'
+        rename_png(src_file_path, dst_file_path)
+    elif file_ext == '.heic':
         dst_file_path = os.path.splitext(dst_file_path)[0] + '.png'
         convert_heic_to_png(src_file_path, dst_file_path)
     elif file_ext == '.dng':
@@ -59,6 +66,9 @@ def process_file(file_name):
 
 def process_files():
     """Process files from src to dst directory with conversion."""
+		## Delete all the files in the destination directory
+    for file in os.listdir(DST_DIR):
+        os.remove(os.path.join(DST_DIR, file))
     with ProcessPoolExecutor() as executor:
         futures = {executor.submit(process_file, file_name): file_name for file_name in os.listdir(SRC_DIR)}
 
