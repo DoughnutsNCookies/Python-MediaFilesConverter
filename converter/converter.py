@@ -5,7 +5,7 @@ import subprocess
 from concurrent.futures import ProcessPoolExecutor, as_completed
 
 # Define the source and destination directories
-SRC_DIR = 'src'
+SRC_DIR = '/Users/seanchuah/Documents/Personal/Sydney/11 Dec 2024'
 DST_DIR = 'dst'
 
 # Ensure destination directory exists
@@ -35,7 +35,11 @@ def convert_video(input_path, output_path):
         print(f"Error converting {input_path}: {e}")
 
 def rename_png(input_path, output_path):
-		"""Rename PNG files to JPEG."""
+		"""Rename PNG files to PNG."""
+		os.rename(input_path, output_path)
+
+def rename_jpg(input_path, output_path):
+		"""Rename JPG files to JPG."""
 		os.rename(input_path, output_path)
 
 def process_file(file_name):
@@ -47,6 +51,9 @@ def process_file(file_name):
     if file_ext == '.png':
         dst_file_path = os.path.splitext(dst_file_path)[0] + '.png'
         rename_png(src_file_path, dst_file_path)
+    elif file_ext == '.jpg':
+        dst_file_path = os.path.splitext(dst_file_path)[0] + '.jpg'
+        rename_jpg(src_file_path, dst_file_path)
     elif file_ext == '.heic':
         dst_file_path = os.path.splitext(dst_file_path)[0] + '.png'
         convert_heic_to_png(src_file_path, dst_file_path)
